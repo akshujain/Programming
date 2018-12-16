@@ -45,6 +45,50 @@ bool SearchNode(Node* root,int data) {
         return SearchNode(root->right,data);
     }
 }
+
+Node* FindMax(Node* root) {
+    Node* current=new Node;
+    while(root->left != NULL) {
+        current = root->left;
+    }
+    return current;
+}
+
+Node* DeleteNode(Node* root,int data) {
+    if(root == NULL) {
+        
+    }
+    else if(data < root->data) {
+        root->left=DeleteNode(root->left,data);
+    }
+    else if(data>root->data) {
+        root->right=DeleteNode(root->right,data);
+    }
+    else {
+        if(root->left == NULL && root->right == NULL) {
+            delete root;
+            root =NULL;
+            
+        }
+        else if(root -> left == NULL) {
+            Node* temp=root;
+            root=root->right;
+            delete temp;
+        }
+        else if(root->right==NULL) {
+            Node* temp=root;
+            root=root->left;
+            delete temp;
+        }
+        else {
+            Node* temp=FindMax(root->left);
+            root->data=temp->data;
+            root->left=DeleteNode(root->left,temp->data);
+        }
+        }
+        return root;
+    }
+
 int main(){
 	Node* root;
 	root = insert(root,10);
@@ -61,5 +105,9 @@ int main(){
         else {
 	      cout<<"Data not found";
         }
+	 root=DeleteNode(root,20);
+        root=DeleteNode(root,10);
+        cout<<"after deletion";
+        Inorder(root);
 	return 0;
 	}
